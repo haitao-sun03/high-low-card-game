@@ -1,0 +1,15 @@
+<svg width="180" height="250" viewBox="0 0 180 250" xmlns="http://www.w3.org/2000/svg">
+  <!-- 卡片背景 -->
+  <rect width="180" height="250" rx="15" fill="white" stroke="#E2E8F0" stroke-width="2"/>
+  
+  <!-- 左上角 -->
+  <text x="15" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2D3748">6</text>
+  <text x="15" y="55" font-family="Arial, sans-serif" font-size="24" fill="#2D3748">♠</text>
+  
+  <!-- 右下角 (旋转180度) -->
+  <text x="165" y="220" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2D3748" text-anchor="end">6</text>
+  <text x="165" y="245" font-family="Arial, sans-serif" font-size="24" fill="#2D3748" text-anchor="end">♠</text>
+  
+  <!-- 中心图案 -->
+  <text x="90" y="125" font-family="Arial, sans-serif" font-size="50" fill="#2D3748" text-anchor="middle" dominant-baseline="middle">♠</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg width="180" height="250" viewBox="0 0 180 250" xmlns="http://www.w3.org/2000/svg">
+  <!-- 卡片背景 -->
+  <rect width="180" height="250" rx="15" fill="url(#gradient)" stroke="#333" stroke-width="2"/>
+  
+  <!-- 渐变背景 -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#A855F7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 卡片背面图案 -->
+  <rect x="15" y="15" width="150" height="220" rx="10" stroke="#fff" stroke-width="2" fill="none" stroke-opacity="0.2"/>
+  
+  <!-- 中心图案 -->
+  <text x="90" y="125" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle" opacity="0.3">HL</text>
+  
+  <!-- 装饰图案 -->
+  <circle cx="45" cy="45" r="15" fill="none" stroke="white" stroke-width="2" opacity="0.2"/>
+  <circle cx="135" cy="45" r="15" fill="none" stroke="white" stroke-width="2" opacity="0.2"/>
+  <circle cx="45" cy="205" r="15" fill="none" stroke="white" stroke-width="2" opacity="0.2"/>
+  <circle cx="135" cy="205" r="15" fill="none" stroke="white" stroke-width="2" opacity="0.2"/>
+</svg>
