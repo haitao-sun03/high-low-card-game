@@ -1,100 +1,158 @@
-# 高低牌游戏 (High-Low Card Game)
+# High-Low Card Game
 
-一个基于Next.js的高低牌游戏，使用钱包连接和Supabase数据库。
+A blockchain-based high-low card game built with Next.js, featuring wallet connectivity, Supabase database integration, and Chainlink Functions for NFT minting.
 
-## 游戏规则
+## Game Rules
 
-1. 基本规则：
-   - 玩家预测下一张牌比当前牌"高"或"低"（A最小，K最大）。
-   - 玩家初始化分数为0。
-   - 猜对得分：连续猜对可累计积分（连对次数×5分）。
-   - 猜错扣分：扣除10分（最低不低于0分），连击重置，游戏继续。
+1. **Basic Gameplay**:
+   - Players predict whether the next card will be "higher" or "lower" than the current card (A is lowest, K is highest)
+   - Players start with a score of 0
+   - **Correct Guess**: Earn points based on consecutive correct guesses (streak × 5 points)
+   - **Wrong Guess**: Lose 10 points (minimum score is 0), streak resets, game continues
 
-## 技术栈
+2. **NFT Rewards**:
+   - Players can mint NFTs based on their performance
+   - Different NFT levels available based on score achievements
+   - Powered by Chainlink Functions for secure off-chain data verification
 
-- **前端框架**: Next.js 15.3.3 (App Router)
-- **样式**: TailwindCSS
-- **钱包连接**: wagmi + RainbowKit
-- **数据库**: Supabase
-- **认证**: JWT + 以太坊签名验证
+## Tech Stack
 
-## 功能特点
+- **Frontend**: Next.js 14.2.4 with App Router
+- **Styling**: TailwindCSS 4.0
+- **Wallet Integration**: wagmi 2.15.0 + RainbowKit 2.2.4
+- **Database**: Supabase
+- **Authentication**: JWT + Ethereum signature verification
+- **Blockchain**: Chainlink Functions for NFT minting
+- **Smart Contracts**: Solidity with OpenZeppelin ERC721
+- **Animation**: Framer Motion
+- **Language**: TypeScript
 
-1. 现代化的UI设计，响应式布局
-2. 钱包连接与验证
-3. 游戏分数记录与排行榜
-4. 暗色/亮色模式自适应
+## Features
 
-## 本地开发
+1. **Modern UI/UX**:
+   - Responsive design with gradient backgrounds
+   - Smooth animations and transitions
+   - Card flip animations
+   - Interactive game buttons with hover effects
 
-### 前提条件
+2. **Wallet Integration**:
+   - Multi-wallet support via RainbowKit
+   - Ethereum signature-based authentication
+   - Network switching support
+   - Account management
 
-- Node.js 18.0.0 或更高版本
-- npm 或 yarn
+3. **Game Mechanics**:
+   - Real-time score tracking
+   - Streak counter for consecutive wins
+   - Score persistence in database
+   - Leaderboard functionality
 
-### 安装步骤
+4. **NFT System**:
+   - Score-based NFT minting
+   - Chainlink Functions integration
+   - Multiple NFT tiers based on achievements
+   - On-chain verification of game scores
 
-1. 克隆仓库
+## Local Development
+
+### Prerequisites
+
+- Node.js 18.0.0 or higher
+- npm or yarn
+- A Supabase account and project
+- A WalletConnect project ID
+
+### Installation
+
+1. **Clone the repository**
 
 ```bash
 git clone <repository-url>
 cd high-low-card-game
 ```
 
-2. 安装依赖
+2. **Install dependencies**
 
 ```bash
 npm install
-# 或
+# or
 yarn install
 ```
 
-3. 创建环境变量文件
+3. **Set up environment variables**
 
-创建一个 `.env.local` 文件，并添加以下内容：
+Create a `.env.local` file in the root directory and add the following:
 
-```
+```env
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 JWT_SECRET=your-jwt-secret
 NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your-wallet-connect-project-id
+
+# For Chainlink Functions (optional)
+CHAINLINK_PRIVATE_KEY=your-private-key
+CHAINLINK_RPC_URL=your-rpc-url
 ```
 
-4. 启动开发服务器
+4. **Start the development server**
 
 ```bash
 npm run dev
-# 或
+# or
 yarn dev
 ```
 
-5. 打开浏览器访问 [http://localhost:3000](http://localhost:3000)
+5. **Open your browser**
 
-## 数据库设置
+Navigate to [http://localhost:3000](http://localhost:3000) to see the application running.
 
-在Supabase中创建以下表：
+## Database Setup
 
-### user_scores 表
+Create the following table in your Supabase project:
 
-| 列名          | 类型      | 描述                 |
-|--------------|-----------|---------------------|
-| id           | uuid      | 主键                 |
-| user_address | text      | 用户钱包地址          |
-| score        | integer   | 当前分数             |
-| highest_score| integer   | 历史最高分数          |
-| created_at   | timestamp | 创建时间             |
-| updated_at   | timestamp | 更新时间             |
+### `high_low` table (for Chainlink Functions)
 
-## 部署
+| Column Name | Type      | Description          |
+|-------------|-----------|----------------------|
+| id          | uuid      | Primary key          |
+| player      | text      | Player wallet address|
+| score       | integer   | Player's score       |
+| created_at  | timestamp | Record creation time |
+| updated_at  | timestamp | Last update time     |
 
-该项目可以部署到Vercel或其他支持Next.js的平台。
+## Smart Contract Deployment
+
+The project includes a Chainlink Functions consumer contract for NFT minting:
+
+1. **Deploy the contract** to your preferred testnet (Sepolia recommended)
+2. **Configure Chainlink Functions** using the provided scripts:
+   ```bash
+   npm run set-config
+   ```
+3. **Set up the DON secrets** for Supabase API access
+
+## Deployment
+
+This project can be deployed to Vercel, Netlify, or any platform that supports Next.js.
+
+### Build for production
 
 ```bash
 npm run build
-# 或
+# or
 yarn build
 ```
 
-## 许可证
+### Deploy to Vercel
+
+1. Connect your repository to Vercel
+2. Add your environment variables in the Vercel dashboard
+3. Deploy automatically on every push to main branch
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
 
 [MIT](LICENSE)
