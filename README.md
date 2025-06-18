@@ -84,14 +84,25 @@ yarn install
 Create a `.env.local` file in the root directory and add the following:
 
 ```env
+# RPC Configuration
+NEXT_PUBLIC_RPC_URL=your-ethereum-rpc-url
+ETHEREUM_PROVIDER=your-ethereum-provider-url
+
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-JWT_SECRET=your-jwt-secret
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your-wallet-connect-project-id
+SUPABASE_BASE_URL=your-supabase-base-url
+SUPABASE_API_KEY=your-supabase-api-key
 
-# For Chainlink Functions (optional)
-CHAINLINK_PRIVATE_KEY=your-private-key
-CHAINLINK_RPC_URL=your-rpc-url
+# JWT Secret for Authentication
+JWT_SECRET=your-jwt-secret
+
+# WalletConnect Configuration
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your-walletconnect-project-id
+
+# Blockchain Configuration (for smart contracts)
+EVM_PRIVATE_KEY=your-evm-private-key
+BUSS_CONTRACT_ADDRESS=your-contract-address
 ```
 
 4. **Start the development server**
