@@ -6,10 +6,11 @@ import { createDeck, shuffleDeck, Card as CardType, compareCards } from '@/lib/c
 
 interface GameProps {
   userToken: string | null;
+  userScore?: number;
   onScoreUpdate?: (score: number) => void;
 }
 
-export default function Game({userToken, onScoreUpdate}: GameProps) {
+export default function Game({userToken, userScore, onScoreUpdate}: GameProps) {
   // 游戏状态
   const [deck, setDeck] = useState<CardType[]>([]);
   const [currentCard, setCurrentCard] = useState<CardType | null>(null);
@@ -142,6 +143,13 @@ export default function Game({userToken, onScoreUpdate}: GameProps) {
       }
     })();
   }, [userToken]);
+
+  // 当父组件传入的userScore发生变化时，同步更新本地score
+  useEffect(() => {
+    if (userScore !== undefined && userScore !== score) {
+      setScore(userScore);
+    }
+  }, [userScore]);
 
   // 处理猜测
   const handleGuess = async (guess: 'higher' | 'lower') => {
@@ -295,13 +303,19 @@ export default function Game({userToken, onScoreUpdate}: GameProps) {
       <div className="flex justify-center gap-16 w-full">
         {/* 当前牌 */}
         <div className="flex flex-col items-center gap-6">
-          <span className="card-label px-6 py-3 rounded-2xl bg-gradient-to-r from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-cyan-500/30 shadow-lg">🃏 Current Card</span>
+          <span className="px-6 py-3 rounded-2xl bg-gradient-to-r from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-cyan-500/30 shadow-lg flex items-center gap-2">
+            <span className="text-lg">🃏</span>
+            <span className="card-label">Current Card</span>
+          </span>
           <Card card={currentCard} isRevealed={true} />
         </div>
         
         {/* 下一张牌 */}
         <div className="flex flex-col items-center gap-6">
-          <span className="card-label px-6 py-3 rounded-2xl bg-gradient-to-r from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-purple-500/30 shadow-lg">❓ Next Card</span>
+          <span className="px-6 py-3 rounded-2xl bg-gradient-to-r from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-purple-500/30 shadow-lg flex items-center gap-2">
+            <span className="text-lg">❓</span>
+            <span className="card-label">Next Card</span>
+          </span>
           <Card card={nextCard} isRevealed={isNextCardRevealed} />
         </div>
       </div>

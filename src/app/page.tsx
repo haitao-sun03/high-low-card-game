@@ -3,18 +3,41 @@
 import { useState, useEffect } from 'react';
 import WalletConnect from '@/components/WalletConnect';
 import Game from '@/components/Game';
+import NFTMint from '@/components/NFTMint';
+import NFTNotification from '@/components/NFTNotification';
+import { startNFTMintedEventListener } from '@/lib/eventListener';
 
 export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [userScore, setUserScore] = useState<number>(0);
+  const [showNFTNotification, setShowNFTNotification] = useState(false);
+  const [nftNotificationData, setNftNotificationData] = useState<any>(null);
   
   // 从本地存储中恢复令牌
   useEffect(() => {
-    const storedToken = localStorage.getItem('game_token');
+    const storedToken = localStorage.getItem('jwt');
     if (storedToken) {
       setToken(storedToken);
       fetchUserScore(storedToken);
     }
+    
+    // 启动NFT事件监听器
+    const unwatch = startNFTMintedEventListener(
+      // 分数更新回调
+      (newScore: number) => {
+        setUserScore(newScore);
+      },
+      // NFT铸造通知回调
+      (nftData: any) => {
+        setNftNotificationData(nftData);
+        setShowNFTNotification(true);
+      }
+    );
+    
+    // 清理函数
+    return () => {
+      unwatch();
+    };
   }, []);
 
   // 处理认证成功
@@ -112,7 +135,7 @@ export default function Home() {
                 <svg className="w-6 h-6 mr-2 drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span className="font-bold text-lg tracking-wide">✅ Wallet Verified</span>
+                <span className="font-bold text-lg tracking-wide">✅ Account Verified</span>
               </div>
             </div>
           )}
@@ -120,7 +143,7 @@ export default function Home() {
 
         {/* 只有在验证通过后才显示游戏 */}
         {token ? (
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto space-y-8">
             {/* 游戏区域 */}
             <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-cyan-500/20">
               <h2 className="text-4xl font-bold mb-10 text-center drop-shadow-lg">
@@ -129,8 +152,14 @@ export default function Home() {
               </h2>
               <Game 
                 userToken={token} 
+                userScore={userScore}
                 onScoreUpdate={handleScoreUpdate} 
               />
+            </div>
+            
+            {/* NFT铸造区域 */}
+            <div>
+              <NFTMint userScore={userScore} userToken={token} onScoreUpdate={handleScoreUpdate} />
             </div>
           </div>
         ) : (
@@ -148,6 +177,13 @@ export default function Home() {
           </div>
         )}
       </div>
+      
+      {/* NFT铸造成功通知 */}
+      <NFTNotification
+        isVisible={showNFTNotification}
+        onClose={() => setShowNFTNotification(false)}
+        nftData={nftNotificationData}
+      />
     </div>
   );
 }

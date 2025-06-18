@@ -16,8 +16,8 @@ export function verifySignature(
   address: string
 ): boolean {
   try {
-    // 恢复签名者地址
-    const signerAddr = ethers.verifyMessage(message, signature);
+    // 恢复签名者地址 (ethers v5 syntax)
+    const signerAddr = ethers.utils.verifyMessage(message, signature);
     
     // 比较恢复的地址与提供的地址（不区分大小写）
     return signerAddr.toLowerCase() === address.toLowerCase();

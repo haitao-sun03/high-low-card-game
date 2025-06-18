@@ -2,8 +2,12 @@ import { cookieStorage, createConfig, createStorage, http } from 'wagmi'
 import { mainnet, sepolia } from 'wagmi/chains'
 import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
 
+let config: ReturnType<typeof createConfig> | undefined
+
 export function getConfig() {
-  return createConfig({
+  if (config) return config
+  
+  config = createConfig({
     chains: [mainnet, sepolia],
     connectors: [
       injected(),
@@ -23,6 +27,8 @@ export function getConfig() {
       [sepolia.id]: http(),
     },
   })
+  
+  return config
 }
 
 declare module 'wagmi' {

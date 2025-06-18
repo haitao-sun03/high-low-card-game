@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
     const userScore = await getUserScore(userData.address);
     return NextResponse.json({
-      data: userScore || { score: 0 },
+      data: { score: userScore ?? 0 },
     });
   } catch (error) {
     console.error("Error handling score request:", error);
@@ -73,9 +73,40 @@ console.log(`userData is ${userData.address},score is ${score} `)
       );
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     console.error("Error updating score:", error);
+    return NextResponse.json(
+      { error: "Failed to update score" },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT方法用于NFT铸造后的分数扣减
+export async function PUT(request: NextRequest) {
+  try {
+    const { address, score } = await request.json();
+
+    if (!address || score === undefined) {
+      return NextResponse.json(
+        { error: "Address and score are required" },
+        { status: 400 }
+      );
+    }
+
+    const success = await updateUserScore(address, score);
+    
+    if (!success) {
+      return NextResponse.json(
+        { error: "Failed to update score" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ data: { success: true } });
+  } catch (error) {
+    console.error("Error updating score via PUT:", error);
     return NextResponse.json(
       { error: "Failed to update score" },
       { status: 500 }

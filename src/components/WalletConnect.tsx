@@ -143,9 +143,9 @@ export default function WalletConnect({ onAuthenticated, onWalletDisconnected, i
                       <button
                         onClick={openConnectModal}
                         type="button"
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-cyan-500/50 hover:from-cyan-400 hover:to-purple-500"
                       >
-                        Connect Wallet
+                        <span>🔗</span> Connect Wallet
                       </button>
                     );
                   }
@@ -155,9 +155,9 @@ export default function WalletConnect({ onAuthenticated, onWalletDisconnected, i
                       <button
                         onClick={openChainModal}
                         type="button"
-                        className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        className="w-full px-8 py-4 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-red-500/50 hover:from-red-400 hover:to-rose-500"
                       >
-                        Wrong Network
+                        ⚠️ Wrong Network
                       </button>
                     );
                   }
@@ -168,7 +168,7 @@ export default function WalletConnect({ onAuthenticated, onWalletDisconnected, i
                         <button
                           onClick={openChainModal}
                           type="button"
-                          className="flex items-center gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm border border-cyan-500/30 rounded-xl font-medium text-cyan-100 transition-all duration-300 hover:from-slate-600/80 hover:to-slate-700/80 hover:border-cyan-400/50 shadow-lg"
                         >
                           {chain.hasIcon && (
                             <div
@@ -196,7 +196,7 @@ export default function WalletConnect({ onAuthenticated, onWalletDisconnected, i
                         <button
                           onClick={openAccountModal}
                           type="button"
-                          className="flex items-center gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm border border-purple-500/30 rounded-xl font-medium text-purple-100 transition-all duration-300 hover:from-slate-600/80 hover:to-slate-700/80 hover:border-purple-400/50 shadow-lg"
                         >
                           {account.displayBalance
                             ? `${account.displayBalance}`
@@ -221,9 +221,9 @@ export default function WalletConnect({ onAuthenticated, onWalletDisconnected, i
           <button
             onClick={handleVerify}
             disabled={isPending || isVerifying}
-            className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/50 hover:from-purple-400 hover:to-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {isPending || isVerifying ? 'Verifying...' : 'Verify Wallet'}
+            {isPending || isVerifying ? '⏳ Verifying...' : 'Verify Account'}
           </button>
           
           {error && (
@@ -232,12 +232,6 @@ export default function WalletConnect({ onAuthenticated, onWalletDisconnected, i
         </div>
       )}
       
-      {/* 验证成功提示 */}
-      {/* {isAuthenticated && (
-        <div className="w-full text-center text-green-500 font-medium mt-2">
-          ✓ Wallet Verified
-        </div>
-      )} */}
     </div>
   );
 }

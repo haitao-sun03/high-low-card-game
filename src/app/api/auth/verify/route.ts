@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"; // 从环境变量获取密钥
+const JWT_SECRET = process.env.JWT_SECRET || "high-low-card-game-secret-key"; // 从环境变量获取密钥
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
 
   try {
     console.log('verify token interface,token is:',token)
-    const decoded = jwt.verify(token, JWT_SECRET) as { sub: string };
+    const decoded = jwt.verify(token, JWT_SECRET) as { address: string };
     return NextResponse.json(
-      { address: decoded.sub, valid: true },
+      { address: decoded.address, valid: true },
       { status: 200 }
     );
   } catch (error) {

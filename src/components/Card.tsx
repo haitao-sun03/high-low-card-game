@@ -1,7 +1,6 @@
 'use client';
 
 import { Card as CardType } from '@/lib/cards';
-import Image from 'next/image';
 
 interface CardProps {
   card: CardType | null;
@@ -76,7 +75,7 @@ export default function Card({ card, isRevealed = true, className = '' }: CardPr
                   points="30,5 50,17.5 50,42.5 30,55 10,42.5 10,17.5" 
                   fill="white"
                   stroke="#375bd2"
-                  strokeWidth="5"
+                  strokeWidth="8"
                 />
               </svg>
             </div>
