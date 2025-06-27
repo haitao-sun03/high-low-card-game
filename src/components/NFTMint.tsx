@@ -16,14 +16,17 @@ interface NFTMintProps {
   userScore: number;
   userToken: string | null;
   onScoreUpdate?: (newScore: number) => void;
+  hideSuccessMessage?: boolean;
+  onNotificationClosed?: () => void;
 }
 
-export default function NFTMint({ userScore, userToken, onScoreUpdate }: NFTMintProps) {
+export default function NFTMint({ userScore, userToken, onScoreUpdate, hideSuccessMessage = false, onNotificationClosed }: NFTMintProps) {
   const { address } = useAccount();
   const [availableLevel, setAvailableLevel] = useState<{ level: string; canMint: boolean; levelInfo: NFTLevel | null }>({ level: '', canMint: false, levelInfo: null });
   const [isMinting, setIsMinting] = useState(false);
   const [mintResult, setMintResult] = useState<{ success: boolean; message: string } | null>(null);
   const [showRules, setShowRules] = useState(false);
+  const [hasShownNotification, setHasShownNotification] = useState(false);
 
   // 检查可用的NFT等级
   useEffect(() => {
@@ -42,6 +45,21 @@ export default function NFTMint({ userScore, userToken, onScoreUpdate }: NFTMint
 
     checkAvailableLevel();
   }, [address, userScore]);
+
+  // 监听NFTNotification显示状态
+  useEffect(() => {
+    if (hideSuccessMessage && mintResult?.success && !hasShownNotification) {
+      // 当NFTNotification首次显示时，标记已显示过
+      setHasShownNotification(true);
+    }
+  }, [hideSuccessMessage, mintResult?.success, hasShownNotification]);
+
+  // 当NFTNotification关闭后，如果已经显示过通知，则清除成功消息
+  useEffect(() => {
+    if (!hideSuccessMessage && hasShownNotification && mintResult?.success) {
+      setMintResult(null);
+    }
+  }, [hideSuccessMessage, hasShownNotification, mintResult?.success]);
 
   // 处理NFT铸造
   const handleMintNFT = async () => {
@@ -64,6 +82,7 @@ export default function NFTMint({ userScore, userToken, onScoreUpdate }: NFTMint
       const result = await mintNFT(address as `0x${string}`, userScore);
       
       if (result.success) {
+        setHasShownNotification(false); // 重置通知显示状态
         setMintResult({ 
           success: true, 
           message: `🎉 NFT minting request submitted! Expected level: ${result.expectedLevel}. Transaction: ${result.txHash?.slice(0, 10)}... ⏳ Please wait for Chainlink Oracle to process and mint your NFT.` 
@@ -217,13 +236,21 @@ export default function NFTMint({ userScore, userToken, onScoreUpdate }: NFTMint
         )}
 
         {/* 铸造结果显示 */}
-        {mintResult && (
+        {mintResult && !(mintResult.success && hideSuccessMessage) && (
           <div className={`p-3 rounded-xl border ${
             mintResult.success 
               ? 'bg-green-900/30 border-green-500/50 text-green-300' 
               : 'bg-red-900/30 border-red-500/50 text-red-300'
           }`}>
             {mintResult.message}
+            {mintResult.success && (
+              <button
+                onClick={() => setMintResult(null)}
+                className="ml-2 text-green-400 hover:text-green-300 font-bold"
+              >
+                ✕
+              </button>
+            )}
           </div>
         )}
       </div>

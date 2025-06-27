@@ -821,7 +821,7 @@ export const NFT_CONTRACT_ABI = [
 ] as const;
 
 // 合约地址（需要替换为实际部署的合约地址）
-export const NFT_CONTRACT_ADDRESS = '0x7B8b4495CEf79e3253B0F919994EdaC6Eae95069' as const;
+export const NFT_CONTRACT_ADDRESS = '0x258f841B70B69E48c8C32fA6e4Df26fe28a461Bb' as const;
 
 // NFT 等级定义
 export interface NFTLevel {

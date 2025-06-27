@@ -15,15 +15,7 @@ interface NFTNotificationProps {
 }
 
 export default function NFTNotification({ isVisible, onClose, nftData }: NFTNotificationProps) {
-  useEffect(() => {
-    if (isVisible) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 5000); // 5秒后自动关闭
-
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible, onClose]);
+  // 移除自动关闭逻辑，改为手动点击关闭
 
   if (!nftData) return null;
 
@@ -98,22 +90,12 @@ export default function NFTNotification({ isVisible, onClose, nftData }: NFTNoti
                   <span className="text-red-400 font-bold text-base">-{nftData.scoreDeducted}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-300 text-base">New Score:</span>
+                  <span className="text-gray-300 text-base">Score Remaining:</span>
                   <span className="text-emerald-400 font-bold text-base">{nftData.newScore}</span>
                 </div>
               </div>
 
-              {/* 进度条 */}
-              <div className="mt-4">
-                <div className="w-full bg-gray-700 rounded-full h-1">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 5 }}
-                    className="bg-gradient-to-r from-purple-500 to-cyan-500 h-1 rounded-full"
-                  ></motion.div>
-                </div>
-              </div>
+
             </div>
 
             {/* 粒子效果 */}
